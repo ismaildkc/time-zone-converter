@@ -33,61 +33,63 @@ function App() {
 
   // When time format changes, update all timezone displays
   useEffect(() => {
-    setTimeData(timeData.map(data => {
-      // Parse time using the OPPOSITE format of what we're switching to
-      const timeObj = moment(data.localTime, !is24Hour ? "HH:mm" : "hh:mm A");
-      // Format it to the NEW format we want
-      return {
-        ...data,
-        localTime: timeObj.format(is24Hour ? "HH:mm" : "hh:mm A")
-      };
-    }));
+    setTimeData(
+      timeData.map((data) => {
+        // Parse time using the OPPOSITE format of what we're switching to
+        const timeObj = moment(data.localTime, !is24Hour ? "HH:mm" : "hh:mm A");
+        // Format it to the NEW format we want
+        return {
+          ...data,
+          localTime: timeObj.format(is24Hour ? "HH:mm" : "hh:mm A"),
+        };
+      })
+    );
   }, [is24Hour]);
-
-  const toggleTimeFormat = () => {
-    setIs24Hour((prev) => !prev);
-  };
 
   // Handle time changes from any timezone card
   const handleTimeChange = (changedZone: string, newTime: string) => {
     // Get the timezone that was changed
-    const changedZoneData = timeData.find(data => data.zone === changedZone);
+    const changedZoneData = timeData.find((data) => data.zone === changedZone);
     if (!changedZoneData) return;
-    
+
     // Calculate the time difference in minutes
-    const oldTime = moment(changedZoneData.localTime, is24Hour ? "HH:mm" : "hh:mm A");
+    const oldTime = moment(
+      changedZoneData.localTime,
+      is24Hour ? "HH:mm" : "hh:mm A"
+    );
     const newTimeObj = moment(newTime, "HH:mm");
-    const diffMinutes = newTimeObj.diff(oldTime, 'minutes');
-    
+    const diffMinutes = newTimeObj.diff(oldTime, "minutes");
+
     // Apply the same time difference to all timezones
-    const updatedTimeData = timeData.map(data => {
+    const updatedTimeData = timeData.map((data) => {
       if (data.zone === changedZone) {
         return {
           ...data,
-          localTime: newTimeObj.format(is24Hour ? "HH:mm" : "hh:mm A")
+          localTime: newTimeObj.format(is24Hour ? "HH:mm" : "hh:mm A"),
         };
       } else {
         // Add the same minutes difference to other timezones
-        const otherTime = moment(data.localTime, is24Hour ? "HH:mm" : "hh:mm A").add(diffMinutes, 'minutes');
+        const otherTime = moment(
+          data.localTime,
+          is24Hour ? "HH:mm" : "hh:mm A"
+        ).add(diffMinutes, "minutes");
         return {
           ...data,
-          localTime: otherTime.format(is24Hour ? "HH:mm" : "hh:mm A")
+          localTime: otherTime.format(is24Hour ? "HH:mm" : "hh:mm A"),
         };
       }
     });
-    
+
     setTimeData(updatedTimeData);
   };
 
   return (
     <>
-      <Header currentLocalTime={currentLocalTime} />
-      <button
-        onClick={toggleTimeFormat}
-        className="bg-blackLight text-white text-sm px-3 py-1 rounded-full"
-      >
-        {is24Hour ? "24 Saat" : "12 Saat"}
-      </button>
+      <Header
+        currentLocalTime={currentLocalTime}
+        handleTimeFormat={(e) => setIs24Hour(e)}
+      />
+
       <section className="px-3 py-1 grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-3">
         {timeData.map((data) => (
           <Card
