@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
-
+import Slider from "@components/Slider";
 
 import { IoCloseOutline } from "react-icons/io5";
 
@@ -9,6 +10,8 @@ interface ICardProps {
 }
 
 const Card = ({ title, color = "gray" }: ICardProps) => {
+  const [time, setTime] = useState<string>("");
+
   return (
     <section
       className={`${
@@ -30,13 +33,19 @@ const Card = ({ title, color = "gray" }: ICardProps) => {
       </div>
 
       {/* Bottom */}
-      <div className="">
+      <div className="flex flex-col gap-3">
         <div className="text-3xl">
           <p className="flex items-end gap-2">
-            <span>01:20</span>
+            <span>{time}</span>
             <span className="opacity-50 text-black">PM</span>
           </p>
         </div>
+
+        <Slider
+          onChange={(e) => {
+            setTime(e as string);
+          }}
+        />
       </div>
     </section>
   );
