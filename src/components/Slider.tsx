@@ -28,7 +28,13 @@ const DateSlider = ({ onChange }: DateSliderProps) => {
   };
 
   return (
-    <div className="w-full px-3 h-10">
+    <div className="slider-container w-full px-3 h-10">
+      {/* <div className="flex justify-between pointer-events-none">
+        {Array.from({ length: (MINUTES_IN_DAY / 30) + 2 }, (_, i) => i).map((i) => (
+          <div key={i} className="w-[1px] h-[8px] -mb-[9px] bg-white opacity-50"></div>
+        ))}
+      </div> */}
+
       <Slider
         min={MIN}
         max={MAX}
@@ -51,7 +57,7 @@ const DateSlider = ({ onChange }: DateSliderProps) => {
           height: '20px',
           marginTop: '-8px'
         }}
-        railStyle={{ backgroundColor: '#e5e7eb' }}
+        railStyle={{ backgroundColor: '#ffffff1c' }}
       />
     </div>
   );
