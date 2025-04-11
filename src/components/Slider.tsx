@@ -10,20 +10,54 @@ interface DateSliderProps {
 const DateSlider = ({ defaultValue, onChange }: DateSliderProps) => {
   const [value, setValue] = useState(0);
 
-  useEffect(() => {
-    console.log(defaultValue);
-  }, [defaultValue]);
-
   const MINUTES_IN_DAY = 1440;
   const MIN = 0;
   const MAX = MINUTES_IN_DAY;
   const STEP = 15;
+
+  // Convert time string to minutes for slider positioning
+  const timeToMinutes = (timeStr: string) => {
+    // Check if time is in 24h or 12h format
+    let hours = 0;
+    let minutes = 0;
+    
+    if (timeStr.includes('AM') || timeStr.includes('PM')) {
+      // 12h format: "06:27 PM"
+      const [timePart, meridiem] = timeStr.split(' ');
+      const [hoursStr, minutesStr] = timePart.split(':');
+      
+      hours = parseInt(hoursStr, 10);
+      minutes = parseInt(minutesStr, 10);
+      
+      // Convert 12h to 24h format for calculations
+      if (meridiem === 'PM' && hours < 12) {
+        hours += 12;
+      } else if (meridiem === 'AM' && hours === 12) {
+        hours = 0;
+      }
+    } else {
+      // 24h format: "18:27"
+      const [hoursStr, minutesStr] = timeStr.split(':');
+      hours = parseInt(hoursStr, 10);
+      minutes = parseInt(minutesStr, 10);
+    }
+    
+    return hours * 60 + minutes;
+  };
 
   const formatTime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
   };
+
+  useEffect(() => {
+    // Parse the default value and set the slider position
+    if (defaultValue) {
+      const minutes = timeToMinutes(defaultValue);
+      setValue(minutes);
+    }
+  }, [defaultValue]);
 
   const handleChange = (newValue: number | number[]) => {
     if (typeof newValue === 'number') {
@@ -56,11 +90,11 @@ const DateSlider = ({ defaultValue, onChange }: DateSliderProps) => {
         included={false}
         trackStyle={{ backgroundColor: '#3b82f6' }}
         handleStyle={{
-          borderColor: '#3b82f6',
-          backgroundColor: '#3b82f6',
-          width: '20px',
-          height: '20px',
-          marginTop: '-8px'
+          borderColor: '#8c8c8c',
+          backgroundColor: '#fff',
+          width: '24px',
+          height: '24px',
+          marginTop: '-10px'
         }}
         railStyle={{ backgroundColor: '#ffffff1c' }}
       />

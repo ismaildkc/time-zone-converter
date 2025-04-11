@@ -8,6 +8,7 @@ export default {
         blackLight: '#181818',
         white: '#ffffff',
         orange: '#eb3912',
+        gray: '#8c8c8c',
       }
     },
   },
