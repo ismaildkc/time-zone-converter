@@ -1,2 +1,6 @@
 @use 'variables';
 @use 'reset';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
