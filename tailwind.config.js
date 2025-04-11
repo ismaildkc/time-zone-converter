@@ -4,7 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        primaryDark: '#0d0f2b',
+        black: '#0c0c0c',
+        blackLight: '#181818',
+        white: '#ffffff',
+        orange: '#eb3912',
       }
     },
   },
