@@ -33,11 +33,15 @@ function App() {
 
   // When time format changes, update all timezone displays
   useEffect(() => {
-    setTimeData(timeData.map(data => ({
-      ...data,
-      localTime: moment(data.localTime, is24Hour ? "HH:mm" : "hh:mm A")
-        .format(is24Hour ? "HH:mm" : "hh:mm A")
-    })));
+    setTimeData(timeData.map(data => {
+      // Parse time using the OPPOSITE format of what we're switching to
+      const timeObj = moment(data.localTime, !is24Hour ? "HH:mm" : "hh:mm A");
+      // Format it to the NEW format we want
+      return {
+        ...data,
+        localTime: timeObj.format(is24Hour ? "HH:mm" : "hh:mm A")
+      };
+    }));
   }, [is24Hour]);
 
   const toggleTimeFormat = () => {
@@ -82,7 +86,7 @@ function App() {
         onClick={toggleTimeFormat}
         className="bg-blackLight text-white text-sm px-3 py-1 rounded-full"
       >
-        {is24Hour ? "12 Saat" : "24 Saat"}
+        {is24Hour ? "24 Saat" : "12 Saat"}
       </button>
       <section className="px-3 py-1 grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-3">
         {timeData.map((data) => (

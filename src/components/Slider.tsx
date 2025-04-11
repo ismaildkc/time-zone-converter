@@ -13,7 +13,7 @@ const DateSlider = ({ defaultValue, onChange }: DateSliderProps) => {
   const MINUTES_IN_DAY = 1440;
   const MIN = 0;
   const MAX = MINUTES_IN_DAY;
-  const STEP = 15;
+  const STEP = 1;
 
   // Convert time string to minutes for slider positioning
   const timeToMinutes = (timeStr: string) => {
