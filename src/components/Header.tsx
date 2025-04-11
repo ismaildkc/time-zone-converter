@@ -1,10 +1,10 @@
 import Button from "./Button"
 
-const Header = () => {
+const Header = ({ currentLocalTime }: { currentLocalTime: string }) => {
   return (
     <div className="px-2 h-16 flex items-center justify-between">
       <span>LOGO</span>
-      <Button>13:42</Button>
+      <Button>{currentLocalTime}</Button>
     </div>
   )
 }

@@ -1,16 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 import Slider from "@components/Slider";
 
 import { IoCloseOutline } from "react-icons/io5";
+import moment from "moment-timezone";
 
 interface ICardProps {
-  title: string;
   color?: "orange" | "gray";
+  timeZone: string;
+  localTime: string;
+  gmtOffset: string;
+  date: string;
+  is24Hour: boolean;
 }
 
-const Card = ({ title, color = "gray" }: ICardProps) => {
+const Card = ({ color = "gray", timeZone, is24Hour, localTime, gmtOffset, date }: ICardProps) => {
   const [time, setTime] = useState<string>("");
+  const [displayTime, setDisplayTime] = useState(localTime);
+
+  useEffect(() => {
+    const time = moment(localTime, is24Hour ? "HH:mm" : "hh:mm A");
+    setDisplayTime(time.format(is24Hour ? "HH:mm" : "hh:mm A"));
+  }, [is24Hour, localTime]);
 
   return (
     <section
@@ -21,9 +32,9 @@ const Card = ({ title, color = "gray" }: ICardProps) => {
       {/* Top */}
       <div className="flex justify-between items-start">
         <div className="">
-          <p>{title}</p>
-          <p className="opacity-50">GMT+3</p>
-          <p className="opacity-50">11 Apr</p>
+          <p>{timeZone}</p>
+          <p className="opacity-50">GMT {gmtOffset}</p>
+          <p className="opacity-50">{date}</p>
         </div>
 
         <div className="flex items-center gap-1">
@@ -42,6 +53,7 @@ const Card = ({ title, color = "gray" }: ICardProps) => {
         </div>
 
         <Slider
+          defaultValue={displayTime}
           onChange={(e) => {
             setTime(e as string);
           }}

@@ -1,13 +1,18 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 interface DateSliderProps {
+  defaultValue: string;
   onChange: (value: number | string) => void;
 }
 
-const DateSlider = ({ onChange }: DateSliderProps) => {
-  const [value, setValue] = React.useState(0);
+const DateSlider = ({ defaultValue, onChange }: DateSliderProps) => {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    console.log(defaultValue);
+  }, [defaultValue]);
 
   const MINUTES_IN_DAY = 1440;
   const MIN = 0;
