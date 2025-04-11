@@ -90,7 +90,7 @@ function App() {
         handleTimeFormat={(e) => setIs24Hour(e)}
       />
 
-      <section className="px-3 py-1 grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-3">
+      <section className="px-3 pt-3 grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-3">
         {timeData.map((data) => (
           <Card
             key={data.zone}

@@ -8,14 +8,14 @@ interface IHeaderProps {
 
 const Header = ({ currentLocalTime, handleTimeFormat }: IHeaderProps) => {
   return (
-    <header className="px-2 h-16 flex items-center justify-between border-b border-1 border-[#202020]">
+    <header className="px-4 h-16 flex items-center justify-between border-b border-1 border-[#202020]">
       <span>LOGO</span>
       <div className="ml-auto flex items-center gap-2">
         <Button>{currentLocalTime}</Button>
         <ToggleButton
           values={[
-            { label: "12", value: false },
             { label: "24", value: true },
+            { label: "12", value: false },
           ]}
           onChange={(value) => handleTimeFormat(value)}
         />
